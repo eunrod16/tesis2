@@ -1,35 +1,79 @@
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
     <link rel="stylesheet" href="onsenui/css/onsenui.css"/>
     <link rel="stylesheet" href="css/index.css"/>
     <link rel="stylesheet" href="onsenui/css/onsen-css-components.css"/>
 
-  </head>
+</head>
 
-  <body>
-    <ons-page>
+<body>
+<ons-page>
     <ons-toolbar>
 
-      <div class="left">
-        <ons-back-button id="btn-back">Back</ons-back-button>
-      </div>
-      <div class="center">Ayuda</div>
-      <!--
-      <div class="right">
-        <ons-toolbar-button>
-          <ons-icon icon="md-menu"></ons-icon>
-        </ons-toolbar-button>
-      </div>
-    -->
+        <div class="left">
+            <ons-back-button id="btn-back">Back</ons-back-button>
+        </div>
+        <div class="center">Ayuda</div>
+        <!--
+        <div class="right">
+          <ons-toolbar-button>
+            <ons-icon icon="md-menu"></ons-icon>
+          </ons-toolbar-button>
+        </div>
+      -->
     </ons-toolbar>
     <div class="main-menu">
-      <h1>Something TODO!</h1>
+        <h1>Something TODO!</h1>
+        <table>
+            <thead>
+            <th>Categoria</th>
+            <th>Punteo</th>
+            </thead>
+            <tbody id="body">
 
+            </tbody>
+        </table>
     </div>
-  </ons-page>
-    <script src="js/jquery311.js"></script>
-  <script src="js/help.js"></script>
-  </body>
+</ons-page>
+<script src="onsenui/js/onsenui.js"></script>
+<script type="text/javascript" src="cordova.js"></script>
+<script src="js/jquery311.js"></script>
+<script src="js/help.js"></script>
+
+<script>
+    //evento para iniciar la primera funcion
+    $(document).ready(function () {
+        document.addEventListener("deviceready", onDeviceReady, true);
+    });
+    //cuando el dispositivo este lito se abre la base de datos, si no existe se crea por defecto
+    function onDeviceReady() {
+        var db = window.sqlitePlugin.openDatabase({name: "pruebas1.db", location: 'default'});
+        db.transaction(populateDB, errorDB, successCB);
+    }
+    function mostrarResultados(tx, results) {
+        var result = "";
+        var len = results.rows.length;
+        for (var i = 0; i < len; i++) {
+            result += "<tr><td>"+results.rows.item(i).nombre+"</td><td>"+results.rows.item(i).punteo+"</td></tr>";
+        }
+        $("#body").append(result);
+    }
+    function populateDB(tx) {
+        tx.executeSql('SELECT nombre,punteo FROM categorias',[], mostrarResultados, errorDB);
+    }
+
+    function errorDB(err) {
+        alert("Error processing SQL: " + err);
+    }
+
+    function successCB() {
+        //alert("success!");
+    }
+
+
+</script>
+</body>
 </html>
