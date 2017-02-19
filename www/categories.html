@@ -102,7 +102,7 @@
                     '<span class="caption">' + results.rows.item(i).nombre + '</span></div></ons-col>');
             } else if (i == 0) {
                 listado = listado.concat('<ons-col width="34vw" class="cell" tappable>' +
-                    '<div class="categorie" data-punteo="0" data-punteo-anterior="0" data-punteo-necesario="0" onclick="funcion(\'' + results.rows.item(i).id + '\')">  <img class="thumbnail" src="' + results.rows.item(i).imagen + '">' +
+                    '<div class="categorie" data-punteo="' + results.rows.item(i).punteo + '" data-punteo-anterior="0" data-punteo-necesario="0" onclick="funcion(\'' + results.rows.item(i).id + '\')">  <img class="thumbnail" src="' + results.rows.item(i).imagen + '">' +
                     '<span class="caption">' + results.rows.item(i).nombre + '</span></div></ons-col>');
             } else {
                 listado = listado.concat('<ons-col width="34vw" class="cell disable" tappable>' +
