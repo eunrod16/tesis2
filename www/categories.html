@@ -23,8 +23,14 @@
         </ons-row>
     </div>
 </ons-page>
-
-<script src="js/jquery311.js"></script>
+<ons-modal direction="up">
+    <div style="text-align: center">
+        <h1 id="modal-title"></h1>
+        <p id="modal-body">
+        </p>
+    </div>
+</ons-modal>
+<script src="js/jquery-2.2.4.js"></script>
 <script src="js/jquery.mobile-1.4.5.js"></script>
 <script src="js/categories.js"></script>
 <script type="text/javascript" charset="utf-8">
@@ -51,8 +57,6 @@
         //ListarDB es la funcion para mostrar las categorias con su imagen en html
         tx.executeSql('SELECT * FROM categorias', [], ListarDB, errorDB);
     }
-
-
     function errorDB(tx, err) {
         alert("Error de SQL: " + err);
     }
@@ -69,7 +73,6 @@
             tx.executeSql('SELECT * FROM categorias', [], InsertarPalabras, errorDB);
         }
     }
-
     function InsertarPalabras(tx, results) {
         //results.rows.item(0).id; asi obtememos el id de la categoria correspondiente, aqui ya suponemos que cmo se insertaron en ese orden las categorias ese es el id correspondiente
         var id_ropa = results.rows.item(0).id;
@@ -88,7 +91,6 @@
         //luego de haber insertado las palabras se muestran en el html en la funcion listardb
         tx.executeSql('SELECT * FROM categorias', [], ListarDB, errorDB);
     }
-
     //en el html se describe onclick en cada categocia la cual llama a la funcion con parametro el id de la categoria
     function ListarDB(tx, results) {
         var len = results.rows.length;
@@ -96,21 +98,20 @@
         for (var i = 0; i < len; i++) {
             if (( i > 0 && results.rows.item(i - 1).punteo >= results.rows.item(i).punteo_necesario)) {
                 listado = listado.concat('<ons-col width="34vw" class="cell" tappable>' +
-                    '<div class="categorie" data-punteo="' + results.rows.item(i).punteo + '" data-punteo-ne="' + results.rows.item(i).punteo_necesario + '" onclick="funcion(\'' + results.rows.item(i).id + '\')">  <img class="thumbnail" src="' + results.rows.item(i).imagen + '">' +
+                    '<div class="categorie" data-punteo="' + results.rows.item(i).punteo + '"data-punteo-anterior="' + results.rows.item(i - 1).punteo + '" data-punteo-necesario="' + results.rows.item(i).punteo_necesario + '" onclick="funcion(\'' + results.rows.item(i).id + '\')">  <img class="thumbnail" src="' + results.rows.item(i).imagen + '">' +
                     '<span class="caption">' + results.rows.item(i).nombre + '</span></div></ons-col>');
             } else if (i == 0) {
                 listado = listado.concat('<ons-col width="34vw" class="cell" tappable>' +
-                    '<div class="categorie" data-punteo="' + results.rows.item(i).punteo + '" data-punteo-ne="' + results.rows.item(i).punteo_necesario + '" onclick="funcion(\'' + results.rows.item(i).id + '\')">  <img class="thumbnail" src="' + results.rows.item(i).imagen + '">' +
+                    '<div class="categorie" data-punteo="0" data-punteo-anterior="0" data-punteo-necesario="0" onclick="funcion(\'' + results.rows.item(i).id + '\')">  <img class="thumbnail" src="' + results.rows.item(i).imagen + '">' +
                     '<span class="caption">' + results.rows.item(i).nombre + '</span></div></ons-col>');
             } else {
                 listado = listado.concat('<ons-col width="34vw" class="cell disable" tappable>' +
-                    '<div class="categorie" data-punteo="' + results.rows.item(i).punteo + '" data-punteo-nece="' + results.rows.item(i).punteo_necesario + '">  <img class="thumbnail disable" src="' + results.rows.item(i).imagen + '">' +
+                    '<div class="categorie" data-punteo="' + results.rows.item(i).punteo + '" data-punteo-anterior="' + results.rows.item(i -1).punteo + '" data-punteo-necesario="' + results.rows.item(i).punteo_necesario + '">  <img class="thumbnail disable" src="' + results.rows.item(i).imagen + '">' +
                     '<span class="caption">' + results.rows.item(i).nombre + '</span></div></ons-col>');
             }
         }
         document.getElementById('lista').innerHTML = listado;
     }
-
     var palabras = '';
     var imagenes = '';
     var param;
@@ -145,6 +146,28 @@
         window.location.replace("juego.html");
     }
 
+    $(document).on("click", '.categorie', function() {
+        // Do stuff
+        console.log("categoria click");
+        var punteo = $(this).data("punteo");
+        var punteo_cat_anterior = $(this).data("punteo-anterior");
+        var punteo_necesario = $(this).data("punteo-necesario");
+
+        if(punteo_cat_anterior >= punteo_necesario) {
+            $("#modal-title").text("Punteo Actual");
+            $("#modal-body").text(punteo);
+        }
+        else{
+            $("#modal-title").text("Opps!");
+            $("#modal-body").text("Necesitas "+punteo_necesario + " puntos en la categoría anterior para desbloquear esta categoría");
+        }
+
+        var modal = document.querySelector('ons-modal');
+        modal.show();
+        setTimeout(function() {
+            modal.hide();
+        }, 4000);
+    });
 
 </script>
 
