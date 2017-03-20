@@ -117,7 +117,7 @@ limitations under the License.
     var unlockOnsenUI = ons._readyLock.lock();
     module.run(['$compile', '$rootScope', function ($compile, $rootScope) {
       // for initialization hook.
-      if (document.readyState === 'loading' || document.readyState == 'uninitialized') {
+      if (document.readyState === 'x' || document.readyState == 'uninitialized') {
         window.addEventListener('DOMContentLoaded', function () {
           document.body.appendChild(document.createElement('ons-dummy-for-init'));
         });
@@ -198,7 +198,7 @@ limitations under the License.
       var module = angular.module(name, deps);
 
       var doc = window.document;
-      if (doc.readyState == 'loading' || doc.readyState == 'uninitialized' || doc.readyState == 'interactive') {
+      if (doc.readyState == 'x' || doc.readyState == 'uninitialized' || doc.readyState == 'interactive') {
         doc.addEventListener('DOMContentLoaded', function () {
           angular.bootstrap(doc.documentElement, [name]);
         }, false);

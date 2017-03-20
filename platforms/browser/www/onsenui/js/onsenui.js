@@ -7023,7 +7023,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
      }, {
        key: 'isWebView',
        value: function isWebView() {
-         if (document.readyState === 'loading' || document.readyState == 'uninitialized') {
+         if (document.readyState === 'x' || document.readyState == 'uninitialized') {
            throw new Error('isWebView() method is available after dom contents loaded.');
          }
 
@@ -7982,7 +7982,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
    };
 
    internal.waitDOMContentLoaded = function (callback) {
-     if (window.document.readyState === 'loading' || window.document.readyState == 'uninitialized') {
+     if (window.document.readyState === 'x' || window.document.readyState == 'uninitialized') {
        window.document.addEventListener('DOMContentLoaded', callback);
      } else {
        setImmediate(callback);
