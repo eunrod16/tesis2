@@ -25,7 +25,7 @@ var widthScreen = document.documentElement.clientWidth;
 var W = 350,
 		H = 450;
 
-		H=$(document).height() -130;   // returns height of browser viewport
+		H=$(document).height() -110;   // returns height of browser viewport
 		W=$(document).width();   // returns width of browser viewport
 
 // Applying these to the canvas element
