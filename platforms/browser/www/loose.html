@@ -1,73 +1,90 @@
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
     <link rel="stylesheet" href="onsenui/css/onsenui.css"/>
 
     <link rel="stylesheet" href="onsenui/css/onsen-css-components.css"/>
     <link rel="stylesheet" href="css/loose.css"/>
-  </head>
+</head>
 
-  <body>
-    <ons-page>
+<body>
+<ons-page>
     <ons-toolbar>
 
-      <div class="left">
-        <ons-back-button id="btn-back">Inicio</ons-back-button>
-      </div>
-      <div class="center">Game Over</div>
+        <div class="left">
+            <ons-back-button id="btn-back">Inicio</ons-back-button>
+        </div>
+        <div class="center">Game Over</div>
     </ons-toolbar>
     <div class="body">
-      <h1 class="pulse">Game Over</h1>
-      <div id="points">
-        <ons-row>
+        <h1 class="pulse">Game Over</h1>
+        <div id="points">
 
-          <ons-col><button class="button button--material--flat">Puntuacion</button> <div id=punteo></div></ons-col>
-          <ons-col >
-            <div style="height: 30%;">
-              <img style=" max-width: 100%;max-height: 100%;" src="img/triste.png" alt="" class="tossing">
-            </div>
-          </ons-col>
-        </ons-row>
-      </div>
+                    <button class="button button--material--flat">Puntuacion</button>
+                    <div id=punteo></div>
+                    <div style="height: 30%;">
+                        <img style=" max-width: 100%;max-height: 100%;" src="img/triste.png" alt="" class="tossing">
+                    </div>
+        </div>
 
-      <div id="bestP">
-        <ons-row>
-          <ons-col width="100%">
-            <h4>Mejor puntuación</h4>
-          </ons-col>
-        </ons-row>
-        <ons-row>
-          <ons-col width="100%">
-          500
-          </ons-col>
-        </ons-row>
-      </div>
+        <div id="bestP">
+            <ons-row>
+                <ons-col width="100%">
+                    <h4>Mejor puntuación</h4>
+                </ons-col>
+            </ons-row>
+            <ons-row>
+                <ons-col width="100%">
+                    500
+                </ons-col>
+            </ons-row>
+        </div>
     </div>
     <div class="footer">
-      <ons-button id="btn-again" onclick="jugar()">Jugar de nuevo</ons-button>
+        <ons-button id="btn-again" onclick="jugar()">Jugar de nuevo</ons-button>
     </div>
-  </ons-page>
-  <script src="onsenui/js/onsenui.js"></script>
-  <script src="js/jquery311.js"></script>
-  <script src="js/loose.js"></script>
-  <script type="text/javascript" src="cordova.js"></script>
-  <script type="text/javascript" charset="utf-8">
-  var puntuacion  = window.localStorage.getItem('puntuacion');
-  $(document).ready(function () {
-       document.addEventListener("deviceready", onDeviceReady, true);
-  });
+</ons-page>
+<script src="onsenui/js/onsenui.js"></script>
+<script src="js/jquery-2.2.4.js"></script>
+<script src="js/jquery.mobile-1.4.5.js"></script>
+<script src="js/loose.js"></script>
+<script type="text/javascript" src="cordova.js"></script>
+<script type="text/javascript" charset="utf-8">
+    var puntuacion = window.localStorage.getItem('puntuacion');
+    $(document).ready(function () {
+        document.addEventListener("deviceready", onDeviceReady, true);
+    });
 
-  function onDeviceReady() {
+    var punteo = 0;
+    var categoria = 0;
+    function onDeviceReady() {
         //var db = window.sqlitePlugin.openDatabase({name: "pruebas.db", location: 'default'});
         //db.transaction(CrearDB, errorDB);
-        var punteo  = window.localStorage.getItem('puntuacion');
-        document.getElementById('punteo').innerHTML = '<button class="button button--material--flat" disabled>'+punteo+'</button>';
+        punteo = window.localStorage.getItem('puntuacion');
+        document.getElementById('punteo').innerHTML = '<button class="button button--material--flat" disabled>' + punteo + '</button>';
 
-  }
-  function jugar(){
-    window.location.replace("juego.html");
-  }
-   </script>
-  </body>
+        categoria = window.localStorage.getItem("categoria");
+        var db = window.sqlitePlugin.openDatabase({name: "pruebas1.db", location: 'default'});
+        db.transaction(actualizarPunteo, errorCB, successCB);
+
+    }
+    function jugar() {
+        window.location.replace("juego.html");
+    }
+    function actualizarPunteo(tx) {
+        tx.executeSql('update categorias set punteo = punteo + ? where id = ?',[punteo,categoria]);
+    }
+
+    function errorCB(err) {
+        alert("Error processing SQL: "+err);
+    }
+
+    function successCB() {
+       // alert("success!");
+    }
+
+</script>
+</body>
 </html>

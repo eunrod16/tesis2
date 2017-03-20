@@ -124,6 +124,7 @@ function clearCanvas() {
 	var img=document.getElementById("fondo");
 	ctx.drawImage(img,0, 0,W,H);
 }
+//building siempre son las imagenes  buil es el de abajo y build 2 es el de arriba
 function VerifyColission(){
 	var DerBall = ball.x + ball.w;
 	var IzqBall = ball.x;
@@ -137,22 +138,22 @@ function VerifyColission(){
 	var IzqBuild2 = building2.x;
 	var SupBuild2= building2.y;
 	var InfBuild2 = building2.y + building2.h;
-	if(DerBuild> (IzqBall+10) &&  IzqBuild < (DerBall-10) && SupBuild < (InfBall-10)){
-		 var valor = document.getElementById("building").value;
-		 if(valor==palabraactual&&buena==false){
+	if(DerBuild> (IzqBall+10) &&  IzqBuild < (DerBall-10) && SupBuild < (InfBall-10)){  //verifica los limites de la colision
+		 var valor = document.getElementById("building").value; //el value es la palabra
+		 if(valor==palabraactual&&buena==false){ //la bandera buena significa si ya paso los limites una vez no debe sumar puntos si los vuelve a pasar
 			 punteo++;
 			 document.getElementById('puntuacion').innerHTML = punteo;
 			 document.getElementById("building").src ="";
 			 buena = true;
 			 Buildcorrecto =1;
 		 }
-		 else if (valor != palabraactual){
+		 else if (valor != palabraactual){  //si se colisiona con la imagen incorrecta
 		//	 document.getElementById('puntuacion').innerHTML = punteo--;
 			 window.localStorage.setItem('puntuacion', punteo);
 			 window.location = "loose.html";
 		 }
 
-		return false;
+
 
 	}
 	if(DerBuild2> (IzqBall+10) &&  IzqBuild2 < (DerBall-10) && InfBuild2 > (SupBall+10) ){
@@ -169,21 +170,45 @@ function VerifyColission(){
 			window.localStorage.setItem('puntuacion', punteo);
 			window.location = "loose.html";
 		}
-	 return false;
+
 
 	}
-	else{
-		return false;
-	}
+
+}
+
+
+function consultarbd (){
+		listpalabras = palabras.split("&"); //palabras es el parametro que se obtubo de la pagina anterior
+		var len = listpalabras.length-1;
+		var i1 = Math.floor((Math.random()*len)); //Primer random de palabraactual que es la correcta
+		palabraactual = listpalabras[i1];
+		listimagenes = imagenes.split("&");
+		var i2=i1;
+		while(i2 == i1){
+			i2 = Math.floor((Math.random()*len)); //Palabra incorrecta
+		}
+		var turno = Math.floor((Math.random()*2)); //Random 0 1 para colocarlo ya sea arriba o abajo
+		if (turno ==0){
+			imagen2 = listimagenes[i1];
+			palabra2 = listpalabras[i1];
+			imagen1 = listimagenes[i2];
+			palabra1 = listpalabras[i2];
+		}
+		else{
+			imagen2 = listimagenes[i2];
+			palabra2 = listpalabras[i2];
+			imagen1 = listimagenes[i1];
+			palabra1 = listpalabras[i1];
+		}
 
 
 }
+
 // A function that will update the position of the ball is also needed. Lets create one
 function update() {
-	var state=VerifyColission();
-	//console.log(state);
+	VerifyColission();
 	document.getElementById('palabra').innerHTML =palabraactual;
-	if(Buildcorrecto!=1){
+	if(Buildcorrecto!=1){ // el Buildcorrecto inicialmente es 0 ya que si el Buildcorrecto/imagencorrecta fue seleccionada ya no se vuelve a mostrar en la pagina
 		document.getElementById("building").src=imagen1;
 		document.getElementById("building").value = palabra1;
 	}
@@ -243,33 +268,6 @@ function update() {
 
 
 }
-function consultarbd (){
-		listpalabras = palabras.split("&");
-		var len = listpalabras.length-1;
-		var i1 = Math.floor((Math.random()*len)); //Primer random de palabraactual
-		palabraactual = listpalabras[i1];
-		listimagenes = imagenes.split("&");
-		var i2=i1;
-		while(i2 == i1){
-			i2 = Math.floor((Math.random()*len)); //Palabra incorrecta
-		}
-		var turno = Math.floor((Math.random()*2)); //Random 0 1
-		if (turno ==0){
-			imagen2 = listimagenes[i1];
-			palabra2 = listpalabras[i1];
-			imagen1 = listimagenes[i2];
-			palabra1 = listpalabras[i2];
-		}
-		else{
-			imagen2 = listimagenes[i2];
-			palabra2 = listpalabras[i2];
-			imagen1 = listimagenes[i1];
-			palabra1 = listpalabras[i1];
-		}
-
-
-}
-
 
 // Now, the animation time!
 // in setInterval, 1000/x depicts x fps! So, in this casse, we are aiming for 60fps for smoother animations.
