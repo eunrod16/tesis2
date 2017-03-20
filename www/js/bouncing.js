@@ -60,7 +60,7 @@ ball = {
 		// Here, we'll first begin drawing the path and then use the arc() function to draw the circle. The arc function accepts 6 parameters, x position, y position, radius, start angle, end angle and a boolean for anti-clockwise direction.
 		var img=document.getElementById("ball");
 		var imgW = (W*30)/100;
-		var imgH = (H*10)/100;
+		var imgH = (H*20)/100;
 		ctx.drawImage(img,this.x , this.y,imgW,imgH);
 	/*	ctx.beginPath();
 		ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2, false);

@@ -143,7 +143,8 @@
         window.localStorage.setItem('palabras', palabras);
         window.localStorage.setItem('imagenes', imagenes);
         window.localStorage.setItem('categoria', param);
-        window.location.replace("ayuda.html");
+        if(param==1)  window.location.replace("ayuda.html");
+        else window.location.replace("juego.html");
     }
 
     $(document).on("click", '.categorie', function() {

@@ -33,7 +33,7 @@
     <div class="main-menu">
 
         <div style="margin-top: 30%;">
-        <video id="video" width="420" height="340" autoplay muted>
+        <video id="video" width="420" height="340" autoplay muted preload="none">
       <source src="img/video.mp4">
 
       </video>
@@ -56,7 +56,6 @@ var video = document.querySelector('video');
 // use the whole window and a *named function*
 window.addEventListener('load', function videoStart() {
   video.play();
-  console.log('first touch');
   // remove from the window and call the function we are removing
   this.removeEventListener('load', videoStart);
 });
