@@ -180,6 +180,14 @@ module.exports = [
         "clobbers": [
             "SQLitePlugin"
         ]
+    },
+    {
+        "id": "com.telerik.plugins.nativepagetransitions.NativePageTransitions",
+        "file": "plugins/com.telerik.plugins.nativepagetransitions/www/NativePageTransitions.js",
+        "pluginId": "com.telerik.plugins.nativepagetransitions",
+        "clobbers": [
+            "window.plugins.nativepagetransitions"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -188,7 +196,8 @@ module.exports.metadata =
     "cordova-plugin-whitelist": "1.3.1",
     "cordova-plugin-compat": "1.1.0",
     "cordova-plugin-file": "4.3.1",
-    "cordova-sqlite-storage": "2.0.2"
+    "cordova-sqlite-storage": "2.0.2",
+    "com.telerik.plugins.nativepagetransitions": "0.6.5"
 };
 // BOTTOM OF METADATA
 });

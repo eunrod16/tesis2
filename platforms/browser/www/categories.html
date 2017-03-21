@@ -67,7 +67,8 @@
         if (len == 0) {
             //alert("CREAR BD");
             tx.executeSql('INSERT INTO categorias(nombre, categoria_padre, imagen, punteo_necesario) VALUES (?,?,?,5)', ['Ropa', 0, 'img/ropa.png']);
-            tx.executeSql('INSERT INTO categorias (nombre, categoria_padre, imagen, punteo_necesario) VALUES (?,?,?,11)', ['Familia', 0, 'img/familia.jpg']);
+            tx.executeSql('INSERT INTO categorias (nombre, categoria_padre, imagen, punteo_necesario) VALUES (?,?,?,11)', ['Familia', 0, 'img/familia.png']);
+            tx.executeSql('INSERT INTO categorias (nombre, categoria_padre, imagen, punteo_necesario) VALUES (?,?,?,11)', ['Cuerpo', 0, 'img/cuerpo_humano.jpg']);
             //si las categorias no han sido insertadas por defecto las palabras tampoco y se insertan en la funcion InsertarPalabras
             // para ello consultamos las categorias inse y asi obtenmos el id de cada categoria y poder referenciarla a la palabra
             tx.executeSql('SELECT * FROM categorias', [], InsertarPalabras, errorDB);
@@ -82,8 +83,8 @@
         tx.executeSql('INSERT INTO palabras(nombre, categoria_padre, imagen) VALUES (?,?,?)', ['Pantalon', id_ropa, 'img/pantalon.png']);
         tx.executeSql('INSERT INTO palabras(nombre, categoria_padre, imagen) VALUES (?,?,?)', ['Camisa', id_ropa, 'img/camisa.png']);
         tx.executeSql('INSERT INTO palabras(nombre, categoria_padre, imagen) VALUES (?,?,?)', ['Calcetines', id_ropa, 'img/calcetines.png']);
-        tx.executeSql('INSERT INTO palabras(nombre, categoria_padre, imagen) VALUES (?,?,?)', ['Padre', id_familia, 'img/padre.jpg']);
-        tx.executeSql('INSERT INTO palabras(nombre, categoria_padre, imagen) VALUES (?,?,?)', ['Madre', id_familia, 'img/madre.jpg']);
+        tx.executeSql('INSERT INTO palabras(nombre, categoria_padre, imagen) VALUES (?,?,?)', ['Padre', id_familia, 'img/padre.png']);
+        tx.executeSql('INSERT INTO palabras(nombre, categoria_padre, imagen) VALUES (?,?,?)', ['Madre', id_familia, 'img/madre.png']);
         tx.executeSql('INSERT INTO palabras(nombre, categoria_padre, imagen) VALUES (?,?,?)', ['Abuelo', id_familia, 'img/abuelo.png']);
         tx.executeSql('INSERT INTO palabras(nombre, categoria_padre, imagen) VALUES (?,?,?)', ['Abuela', id_familia, 'img/abuela.png']);
         tx.executeSql('INSERT INTO palabras(nombre, categoria_padre, imagen) VALUES (?,?,?)', ['Bebé', id_familia, 'img/bebe.png']);
