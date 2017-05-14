@@ -16,7 +16,7 @@
         <div class="left">
             <ons-back-button id="btn-back">Back</ons-back-button>
         </div>
-        <div class="center">Ayuda</div>
+        <div class="center">Acerca De</div>
         <!--
         <div class="right">
           <ons-toolbar-button>
@@ -26,21 +26,27 @@
       -->
     </ons-toolbar>
     <h1>Creditos</h1>
-    <h5>Quetzy http://www.blendswap.com/user/Coolinus</h5>
 
-    <!--
-    <div class="main-menu">
-        <h1>Something TODO!</h1>
-        <table>
-            <thead>
-            <th>Categoria</th>
-            <th>Punteo</th>
-            </thead>
-            <tbody id="body">
+    <ons-list>
+        <ons-list-header>Personaje</ons-list-header>
+        <ons-list-item modifier="longdivider">Quetzy</ons-list-item>
+        <ons-list-item modifier="longdivider">http://www.blendswap.com/user/Coolinus</ons-list-item>
+        <ons-list-header>Desarrollado por</ons-list-header>
+        <ons-list-item modifier="longdivider">
+                Hilda Eunice G. Rodas Rivas <br>
+                hildaeunicer@gmail.com
 
-            </tbody>
-        </table>
-    </div>-->
+        </ons-list-item>
+        <ons-list-item modifier="longdivider">
+                Alan Kenny Hurtarte Siguenza <br>
+                alan.hurtarte@gmail.com
+        </ons-list-item>
+        <ons-list-header>Acerca de</ons-list-header>
+        <ons-list-item modifier="longdivider">
+            Version 1.0
+        </ons-list-item>
+
+    </ons-list>
 </ons-page>
 <script src="onsenui/js/onsenui.js"></script>
 <script type="text/javascript" src="cordova.js"></script>
@@ -55,8 +61,8 @@
     });
     //cuando el dispositivo este lito se abre la base de datos, si no existe se crea por defecto
     function onDeviceReady() {
-        var db = window.sqlitePlugin.openDatabase({name: "pruebas1.db", location: 'default'});
-        db.transaction(populateDB, errorDB, successCB);
+//        var db = window.sqlitePlugin.openDatabase({name: "pruebas1.db", location: 'default'});
+//        db.transaction(populateDB, errorDB, successCB);
     }
     function mostrarResultados(tx, results) {
         var result = "";
