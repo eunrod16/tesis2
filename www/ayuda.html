@@ -60,7 +60,11 @@
     }, false);
 
     function end_video(){
-        window.location.replace("juego.html");
+       // window.location.replace("juego.html");
+        window.plugins.nativepagetransitions.slide({
+            "direction" : "left",
+            "href" : "juego.html"
+        });
     }
 
 </script>

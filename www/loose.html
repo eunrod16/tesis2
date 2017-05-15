@@ -71,7 +71,11 @@
 
     }
     function jugar() {
-        window.location.replace("juego.html");
+       // window.location.replace("juego.html");
+        window.plugins.nativepagetransitions.slide({
+            "direction" : "left",
+            "href" : "juego.html"
+        });
     }
     function actualizarPunteo(tx) {
         tx.executeSql('update categorias set punteo = punteo + ? where id = ?',[punteo,categoria]);
