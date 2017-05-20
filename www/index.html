@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="onsenui/css/onsenui.css"/>
     <link rel="stylesheet" href="onsenui/css/onsen-css-components.css"/>
     <link rel="stylesheet" href="css/index.css"/>
-    <title>Index</title>
+    <link rel="stylesheet" href="css/ayuda.css"/>
+    <link rel="stylesheet" href="css/juego.css"/>
 </head>
 <body>
 <ons-navigator id="myNavigator" page="index.html" ons-postpush="postPush"></ons-navigator>
@@ -41,17 +42,45 @@
 <!--</ons-template>-->
 <!--<ons-template id="acerca_de.html">-->
 <!--</ons-template>-->
-
-
 <script src="js/jquery-2.2.4.js"></script>
 <script src="js/jquery.mobile-1.4.5.js"></script>
 <script src="onsenui/js/onsenui.js"></script>
+<script src="js/index.js"></script>
 <script type="text/javascript" src="cordova.js"></script>
 
-<script src="js/index.js"></script>
+<script src="js/help.js"></script>
+<script type='application/javascript' src='js/fastclick.js'></script>
+
 <script>
     var despegar_juego = false;
     var listado_categorias = '';
+    var palabras = '';
+    var imagenes = '';
+    var param;
+    // _____________________________________________________--
+    //   Para juego.html
+    var canvas;
+    var ctx ;
+    var x ;
+    var punteo;
+    var palabras;
+    var imagenes;
+    var listpalabras ;
+    var listimagenes;
+    var listpasadas ;
+    var iterador;
+    var palabraactual;
+    var imagen1;
+    var imagen2;
+    var palabra1;
+    var palabra2;
+    var buena;
+    var Buildcorrecto;
+    var loose = false;
+    var W = 350,
+        H = 450;
+    var ball ;
+    // _____________________________________________________--
 
 
     document.addEventListener('init', function (event) {
@@ -68,6 +97,11 @@
             };
             page.querySelector('#btn-acerca').onclick = function () {
                 document.querySelector('#myNavigator').pushPage('acerca_de.html', {data: {title: 'Acerca De'}});
+            };
+        }else if(page.id === "loose"){
+
+            page.querySelector('#btn-inicio').onclick = function () {
+                document.querySelector('#myNavigator').resetToPage('index.html', {data: {title: 'Inicio'}});
             };
         }
     });
@@ -121,6 +155,163 @@
         document.getElementById('lista').innerHTML = listado_categorias;
     }
 
+    function ayudaLoaded() {
+//        $('head').append('<link rel="stylesheet" type="text/css" href="./css/ayuda.css">');
+        var video = document.querySelector('video');
+        video.load();
+
+        video.addEventListener('loadeddata', function() {
+            // Video is loaded and can be played
+            video.play();
+            setTimeout(end_video,5000);
+        }, false);
+
+        function end_video(){
+            // window.location.replace("juego.html");
+            var options = {
+                callback: gameplayLoaded,
+                data: {title: "Juego"}
+            };
+            document.querySelector('#myNavigator').pushPage('juego.html', options);
+//        window.plugins.nativepagetransitions.slide({
+//            "direction" : "left",
+//            "href" : "juego.html"
+//        });
+        }
+    }
+
+    function gameplayLoaded(){
+        console.log("Gameplay loaded");
+        // Now some basic canvas stuff. Here we'll make a variable for the canvas and then initialize its 2d context for drawing
+        canvas = document.getElementById("canvas");
+        ctx = canvas.getContext("2d");
+        x = document.getElementById("myInput");
+        punteo=0;
+        palabras  = window.localStorage.getItem('palabras');
+        imagenes  = window.localStorage.getItem('imagenes');
+        listpalabras = new Array();
+        listimagenes = new Array();
+        listpasadas = new Array ();
+        iterador=0;
+        buena = false;
+        Buildcorrecto = 0;
+        loose = false;
+//
+
+// Now setting the width and height of the canvas
+        var widthScreen = document.documentElement.clientWidth;
+
+        H=$(document).height() -110;   // returns height of browser viewport
+        W=$(document).width();   // returns width of browser viewport
+
+// Applying these to the canvas element
+        canvas.height = H; canvas.width = W;
+
+// First of all we'll create a ball object which will contain all the methods and variables specific to the ball.
+// Lets define some variables first
+
+        ball = {},
+            gravity = 0.2,
+            bounceFactor = 0.7;
+
+// The ball object
+// It will contain the following details
+// 1) Its x and y position
+// 2) Radius and color
+// 3) Velocity vectors
+// 4) the method to draw or paint it on the canvas
+
+        ball = {
+            x: W/2 - (((W*40)/100)/2),
+            y: 50,
+
+            // Velocity components
+            vx: 0,
+            vy: 0.5,
+            w:  (W*30)/100,
+            h:  (H*30)/100,
+            r: 170,
+
+            draw: function() {
+                // Here, we'll first begin drawing the path and then use the arc() function to draw the circle. The arc function accepts 6 parameters, x position, y position, radius, start angle, end angle and a boolean for anti-clockwise direction.
+                var img=document.getElementById("ball");
+                var imgW = (W*30)/100;
+                var imgH = (H*20)/100;
+                ctx.drawImage(img,this.x , this.y,imgW,imgH);
+                /*	ctx.beginPath();
+                 ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2, false);
+                 ctx.fillStyle = this.color;
+                 ctx.fill();
+                 ctx.closePath();*/
+            }
+        };
+        building = {
+            x: 0,
+            y: H-160,
+
+            w:  (H*30)/100,
+            h: (H*30)/100,
+            // Velocity components
+            vx: 0,
+            vy: 1,
+
+            draw: function() {
+                // Here, we'll first begin drawing the path and then use the arc() function to draw the circle. The arc function accepts 6 parameters, x position, y position, radius, start angle, end angle and a boolean for anti-clockwise direction.
+                var img=document.getElementById("building");
+                var imgW = (W*30)/100;
+                var imgH = (H*30)/100;
+                ctx.drawImage(img,this.x, this.y,imgW,imgH);
+            }
+        };
+
+        building2 = {
+            x: 0,
+            y: 0,
+
+            w: (W*30)/100,
+            h:  (H*30)/100,
+            // Velocity components
+            vx: 0,
+            vy: 1,
+
+            draw: function() {
+                // Here, we'll first begin drawing the path and then use the arc() function to draw the circle. The arc function accepts 6 parameters, x position, y position, radius, start angle, end angle and a boolean for anti-clockwise direction.
+                var img=document.getElementById("building2");
+                var imgW = (W*30)/100;
+                var imgH = (H*30)/100;
+                ctx.drawImage(img,this.x, this.y,imgW,imgH);
+            }
+        };
+
+        estrella = {
+            x: W/2,
+            y: H/2,
+
+            draw: function() {
+                // Here, we'll first begin drawing the path and then use the arc() function to draw the circle. The arc function accepts 6 parameters, x position, y position, radius, start angle, end angle and a boolean for anti-clockwise direction.
+                var img=document.getElementById("estrella");
+                ctx.drawImage(img,this.x, this.y,60,60);
+            }
+        };
+
+        // Now, the animation time!
+// in setInterval, 1000/x depicts x fps! So, in this casse, we are aiming for 60fps for smoother animations.
+        setInterval(update, 1000/60);
+        consultarbd();
+
+
+
+
+// This completes the tutorial here. Try experimenting with different values to get a better understanding.
+
+// Also, try playing with the x-component of velocity ;)
+
+        $('#canvas').click(function(){
+            //console.log("click ");
+            ball.vy = 10 * -bounceFactor;
+            ball.y=ball.y-5;
+        });
+    }
 
     function CrearDB(tx) {
         console.log("crear db");
@@ -130,9 +321,9 @@
         // en esta transaccion se selecciona las categorias con los nombres definidos si el  resultado de la consulta es exitoso(osea no hay error) va a la funciòn insert
         tx.executeSql('SELECT * FROM categorias WHERE nombre=? or nombre=? ', ['Ropa', 'Familia'], Insert, errorDB);
         //esta transaccion se ejecuta si en la funcion insert no se inserta nada porque ya existe y por lo tanto no nos lleva a otra funcion
-        //ListarDB es la funcion para mostrar las categorias con su imagen en html
-        tx.executeSql('SELECT * FROM categorias', [], ListarDB, errorDB);
+
     }
+
     function errorDB(tx, err) {
         alert("Error de SQL: ", err);
     }
@@ -151,8 +342,12 @@
             //si las categorias no han sido insertadas por defecto las palabras tampoco y se insertan en la funcion InsertarPalabras
             // para ello consultamos las categorias inse y asi obtenmos el id de cada categoria y poder referenciarla a la palabra
             tx.executeSql('SELECT * FROM categorias', [], InsertarPalabras, errorDB);
+        }else{
+            //ListarDB es la funcion para mostrar las categorias con su imagen en html
+            tx.executeSql('SELECT * FROM categorias', [], ListarDB, errorDB);
         }
     }
+
     function InsertarPalabras(tx, results) {
         console.log("Insertar palabras");
         //results.rows.item(0).id; asi obtememos el id de la categoria correspondiente, aqui ya suponemos que cmo se insertaron en ese orden las categorias ese es el id correspondiente
@@ -180,11 +375,11 @@
         for (var i = 0; i < len; i++) {
             if (( i > 0 && results.rows.item(i - 1).punteo >= results.rows.item(i).punteo_necesario)) {
                 listado_categorias = listado_categorias.concat('<ons-col width="33vw" class="cell" tappable>' +
-                    '<div class="categorie" data-punteo="' + results.rows.item(i).punteo + '"data-punteo-anterior="' + results.rows.item(i - 1).punteo + '" data-punteo-necesario="' + results.rows.item(i).punteo_necesario + '" onclick="funcion(\'' + results.rows.item(i).id + '\')">  <img class="thumbnail" src="' + results.rows.item(i).imagen + '">' +
+                    '<div class="categorie" data-punteo="' + results.rows.item(i).punteo + '"data-punteo-anterior="' + results.rows.item(i - 1).punteo + '" data-punteo-necesario="' + results.rows.item(i).punteo_necesario + '" onclick="categoriaClick(\'' + results.rows.item(i).id + '\')">  <img class="thumbnail" src="' + results.rows.item(i).imagen + '">' +
                     '<span class="caption">' + results.rows.item(i).nombre + '</span></div></ons-col>');
             } else if (i == 0) {
                 listado_categorias = listado_categorias.concat('<ons-col width="33vw" class="cell" tappable>' +
-                    '<div class="categorie" data-punteo="' + results.rows.item(i).punteo + '" data-punteo-anterior="0" data-punteo-necesario="0" onclick="funcion(\'' + results.rows.item(i).id + '\')">  <img class="thumbnail" src="' + results.rows.item(i).imagen + '">' +
+                    '<div class="categorie" data-punteo="' + results.rows.item(i).punteo + '" data-punteo-anterior="0" data-punteo-necesario="0" onclick="categoriaClick(\'' + results.rows.item(i).id + '\')">  <img class="thumbnail" src="' + results.rows.item(i).imagen + '">' +
                     '<span class="caption">' + results.rows.item(i).nombre + '</span></div></ons-col>');
             } else {
                 listado_categorias = listado_categorias.concat('<ons-col width="33vw" class="cell disable" tappable>' +
@@ -194,17 +389,16 @@
         }
 //        document.getElementById('lista').innerHTML = listado;
     }
-    var palabras = '';
-    var imagenes = '';
-    var param;
+
     //esta funcion es la funcion que es llamada desde el onclik de la categoria
-    function funcion(value) { //value es el id de la categoria selecccionada
-        console.log("funcion");
+    function categoriaClick(value) { //value es el id de la categoria selecccionada
+        console.log("categoriaClick");
         param = value;
         //alert(param);
         var db = window.sqlitePlugin.openDatabase({name: "pruebas1.db", location: 'default'});
         db.transaction(select, errorDB);
     }
+
     //la siguiente funcion es para seleccionar las palabras de acuerdo a la categoria almacenada en la variable global param
     function select(tx) {
         console.log("select");
@@ -230,18 +424,69 @@
         window.localStorage.setItem('imagenes', imagenes);
         window.localStorage.setItem('categoria', param);
         if (param == 1) {
-            window.plugins.nativepagetransitions.slide({
-                "direction": "left",
-                "href": "ayuda.html"
-            });
+            var options = {
+                callback: ayudaLoaded,
+                data: {title: "Ayuda"}
+            };
+            document.querySelector('#myNavigator').pushPage('ayuda.html', options);
         }
         else {
-            window.plugins.nativepagetransitions.slide({
-                "direction": "left",
-                "href": "juego.html"
-            });
+            var options = {
+                callback: gameplayLoaded,
+                data: {title: "Juego"}
+            };
+            document.querySelector('#myNavigator').pushPage('juego.html', options);
         }
     }
+
+    //_____________________________________________________________
+    //____________Loose scree____________________________
+
+
+    function looseLoaded(){
+//        var puntuacion = window.localStorage.getItem('puntuacion');
+//        var punteo = 0;
+//        var categoria = 0;
+//        punteo = window.localStorage.getItem('puntuacion');
+//        document.getElementById('punteo').innerHTML = '<button class="button button--material--flat" disabled>' + punteo + '</button>';
+//
+//        categoria = window.localStorage.getItem("categoria");
+//        var db = window.sqlitePlugin.openDatabase({name: "pruebas1.db", location: 'default'});
+//        db.transaction(actualizarPunteo, errorCB, successCB);
+//
+//        function jugar() {
+//            // window.location.replace("juego.html");
+////        window.plugins.nativepagetransitions.slide({
+////            "direction" : "left",
+////            "href" : "juego.html"
+////        });
+//            document.querySelector('#myNavigator').resetToPage('juego.html', {data: {title: 'Juego'}});
+//        }
+//        function actualizarPunteo(tx) {
+//            tx.executeSql('update categorias set punteo = punteo + ? where id = ?',[punteo,categoria]);
+//        }
+//
+//        function errorCB(err) {
+//            alert("Error processing SQL: "+err);
+//        }
+//
+//        function successCB() {
+//            // alert("success!");
+//        }
+    }
+    //_____________________________________________________________
+
+
 </script>
+
+<!-- Juego.html -->
+<img src="img/quetzalito2.png" alt="" hidden="hidden" id="ball">
+<img src="img/estrella.png" alt="" hidden="hidden" id="estrella">
+<img src="img/building.png" alt="" hidden="hidden" id="building">
+<img src="img/building.png" alt="" hidden="hidden" id="building2">
+<img src="img/fondo.png" alt="" hidden="hidden" id="fondo">
+
+
+<script type="text/javascript" src="js/bouncing.js"></script>
 </body>
 </html>

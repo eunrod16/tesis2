@@ -1,122 +1,4 @@
-// Now some basic canvas stuff. Here we'll make a variable for the canvas and then initialize its 2d context for drawing
-var canvas = document.getElementById("canvas"),
-		ctx = canvas.getContext("2d");
-		var x = document.getElementById("myInput");
-		var punteo=0;
-		var palabras  = window.localStorage.getItem('palabras');
-		var imagenes  = window.localStorage.getItem('imagenes');
-		var listpalabras = new Array();
-		var listimagenes = new Array();
-		var listpasadas = new Array ();
-		var iterador=0;
-		var palabraactual;
-		var imagen1;
-		var imagen2;
-		var palabra1;
-		var palabra2;
-		var buena = false;
-		var Buildcorrecto = 0;
 
-//
-
-// Now setting the width and height of the canvas
-var widthScreen = document.documentElement.clientWidth;
-
-var W = 350,
-		H = 450;
-
-		H=$(document).height() -110;   // returns height of browser viewport
-		W=$(document).width();   // returns width of browser viewport
-
-// Applying these to the canvas element
-canvas.height = H; canvas.width = W;
-
-// First of all we'll create a ball object which will contain all the methods and variables specific to the ball.
-// Lets define some variables first
-
-var ball = {},
-		gravity = 0.2,
-		bounceFactor = 0.7;
-
-// The ball object
-// It will contain the following details
-// 1) Its x and y position
-// 2) Radius and color
-// 3) Velocity vectors
-// 4) the method to draw or paint it on the canvas
-
-ball = {
-	x: W/2 - (((W*40)/100)/2),
-	y: 50,
-
-	// Velocity components
-	vx: 0,
-	vy: 0.5,
-	w:  (W*30)/100,
-	h:  (H*30)/100,
-	r: 170,
-
-	draw: function() {
-		// Here, we'll first begin drawing the path and then use the arc() function to draw the circle. The arc function accepts 6 parameters, x position, y position, radius, start angle, end angle and a boolean for anti-clockwise direction.
-		var img=document.getElementById("ball");
-		var imgW = (W*30)/100;
-		var imgH = (H*20)/100;
-		ctx.drawImage(img,this.x , this.y,imgW,imgH);
-	/*	ctx.beginPath();
-		ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2, false);
-		ctx.fillStyle = this.color;
-		ctx.fill();
-		ctx.closePath();*/
-	}
-};
-building = {
-	x: 0,
-	y: H-160,
-
-	w:  (H*30)/100,
-	h: (H*30)/100,
-	// Velocity components
-	vx: 0,
-	vy: 1,
-
-	draw: function() {
-		// Here, we'll first begin drawing the path and then use the arc() function to draw the circle. The arc function accepts 6 parameters, x position, y position, radius, start angle, end angle and a boolean for anti-clockwise direction.
-		var img=document.getElementById("building");
-		var imgW = (W*30)/100;
-		var imgH = (H*30)/100;
-		ctx.drawImage(img,this.x, this.y,imgW,imgH);
-	}
-};
-
-building2 = {
-	x: 0,
-	y: 0,
-
-	w: (W*30)/100,
-	h:  (H*30)/100,
-	// Velocity components
-	vx: 0,
-	vy: 1,
-
-	draw: function() {
-		// Here, we'll first begin drawing the path and then use the arc() function to draw the circle. The arc function accepts 6 parameters, x position, y position, radius, start angle, end angle and a boolean for anti-clockwise direction.
-		var img=document.getElementById("building2");
-		var imgW = (W*30)/100;
-		var imgH = (H*30)/100;
-		ctx.drawImage(img,this.x, this.y,imgW,imgH);
-	}
-};
-
-estrella = {
-	x: W/2,
-	y: H/2,
-
-	draw: function() {
-		// Here, we'll first begin drawing the path and then use the arc() function to draw the circle. The arc function accepts 6 parameters, x position, y position, radius, start angle, end angle and a boolean for anti-clockwise direction.
-		var img=document.getElementById("estrella");
-		ctx.drawImage(img,this.x, this.y,60,60);
-	}
-};
 // When we do animations in canvas, we have to repaint the whole canvas in each frame. Either clear the whole area or paint it with some color. This helps in keeping the area clean without any repetition mess.
 // So, lets create a function that will do it for us.
 function clearCanvas() {
@@ -149,8 +31,10 @@ function VerifyColission(){
 		 }
 		 else if (valor != palabraactual){  //si se colisiona con la imagen incorrecta
 		//	 document.getElementById('puntuacion').innerHTML = punteo--;
+             loose = true;
 			 window.localStorage.setItem('puntuacion', punteo);
-			 window.location = "loose.html";
+             document.querySelector('#myNavigator').resetToPage('loose.html', {data: {title: "Loose"}});
+			 // window.location = "loose.html";
 		 }
 
 
@@ -168,7 +52,9 @@ function VerifyColission(){
 		else if (valor != palabraactual){
 	//		document.getElementById('puntuacion').innerHTML = punteo--;
 			window.localStorage.setItem('puntuacion', punteo);
-			window.location = "loose.html";
+            loose = true;
+            document.querySelector('#myNavigator').resetToPage('loose.html', {data: {title: "Loose"}});
+			// window.location = "loose.html";
 		}
 
 
@@ -206,6 +92,8 @@ function consultarbd (){
 
 // A function that will update the position of the ball is also needed. Lets create one
 function update() {
+    if(loose)
+        return;
 	VerifyColission();
 	document.getElementById('palabra').innerHTML =palabraactual;
 	if(Buildcorrecto!=1){ // el Buildcorrecto inicialmente es 0 ya que si el Buildcorrecto/imagencorrecta fue seleccionada ya no se vuelve a mostrar en la pagina
@@ -269,20 +157,8 @@ function update() {
 
 }
 
-// Now, the animation time!
-// in setInterval, 1000/x depicts x fps! So, in this casse, we are aiming for 60fps for smoother animations.
-setInterval(update, 1000/60);
-consultarbd();
+function loose(){
+
+}
 
 
-
-
-// This completes the tutorial here. Try experimenting with different values to get a better understanding.
-
-// Also, try playing with the x-component of velocity ;)
-
-$('#canvas').click(function(){
-	//console.log("click ");
-	ball.vy = 10 * -bounceFactor;
-	ball.y=ball.y-5;
-});

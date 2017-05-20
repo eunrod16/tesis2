@@ -7,35 +7,36 @@
     <link rel="stylesheet" href="onsenui/css/onsen-css-components.css"/>
     <script src="onsenui/js/onsenui.js"></script>
     <script type="text/javascript" src="cordova.js"></script>
-    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <meta name="viewport"
+          content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
 </head>
 
 <body>
-<ons-page id="categories.html">
-    <ons-toolbar>
-        <div class="left">
-            <ons-back-button id="btn-back">Regresar</ons-back-button>
+
+    <ons-page id="categories">
+        <ons-toolbar>
+            <div class="left">
+                <ons-back-button id="btn-back">Regresar</ons-back-button>
+            </div>
+            <div class="center">Elige una categoría</div>
+        </ons-toolbar>
+        <div style="text-align:center;">
+            <ons-row id="lista">
+            </ons-row>
         </div>
-        <div class="center">Elige una categoría</div>
-    </ons-toolbar>
-    <div style="text-align:center;">
-        <ons-row id="lista">
-        </ons-row>
-    </div>
-</ons-page>
-<ons-modal direction="up">
-    <div style="text-align: center">
-        <h1 id="modal-title"></h1>
-        <p id="modal-body">
-        </p>
-    </div>
-</ons-modal>
-<script src="js/jquery-2.2.4.js"></script>
-<script src="js/jquery.mobile-1.4.5.js"></script>
-<script src="js/categories.js"></script>
-<script type="text/javascript" charset="utf-8">
+    </ons-page>
+    <ons-modal direction="up">
+        <div style="text-align: center">
+            <h1 id="modal-title"></h1>
+            <p id="modal-body">
+            </p>
+        </div>
+    </ons-modal>
+    <script src="js/jquery-2.2.4.js"></script>
+    <script src="js/jquery.mobile-1.4.5.js"></script>
+    <script src="js/categories.js"></script>
+    <script type="text/javascript" charset="utf-8">
 
-</script>
-
+    </script>
 </body>
 </html>
