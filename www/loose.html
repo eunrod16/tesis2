@@ -3,18 +3,15 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
-    <link rel="stylesheet" href="onsenui/css/onsenui.css"/>
-
-    <link rel="stylesheet" href="onsenui/css/onsen-css-components.css"/>
     <link rel="stylesheet" href="css/loose.css"/>
 </head>
 
 <body>
-<ons-page>
+<ons-page id="loose">
     <ons-toolbar>
 
         <div class="left">
-            <ons-back-button id="btn-back">Inicio</ons-back-button>
+            <ons-button id="btn-inicio">Inicio</ons-button>
         </div>
         <div class="center">Game Over</div>
     </ons-toolbar>
@@ -46,44 +43,7 @@
         <ons-button id="btn-again" onclick="jugar()">Jugar de nuevo</ons-button>
     </div>
 </ons-page>
-<script src="onsenui/js/onsenui.js"></script>
-<script src="js/jquery-2.2.4.js"></script>
-<script src="js/jquery.mobile-1.4.5.js"></script>
-<script src="js/loose.js"></script>
-<script type="text/javascript" src="cordova.js"></script>
 <script type="text/javascript" charset="utf-8">
-    var puntuacion = window.localStorage.getItem('puntuacion');
-    $(document).ready(function () {
-        document.addEventListener("deviceready", onDeviceReady, true);
-    });
-
-    var punteo = 0;
-    var categoria = 0;
-    function onDeviceReady() {
-        //var db = window.sqlitePlugin.openDatabase({name: "pruebas.db", location: 'default'});
-        //db.transaction(CrearDB, errorDB);
-        punteo = window.localStorage.getItem('puntuacion');
-        document.getElementById('punteo').innerHTML = '<button class="button button--material--flat" disabled>' + punteo + '</button>';
-
-        categoria = window.localStorage.getItem("categoria");
-        var db = window.sqlitePlugin.openDatabase({name: "pruebas1.db", location: 'default'});
-        db.transaction(actualizarPunteo, errorCB, successCB);
-
-    }
-    function jugar() {
-        window.location.replace("juego.html");
-    }
-    function actualizarPunteo(tx) {
-        tx.executeSql('update categorias set punteo = punteo + ? where id = ?',[punteo,categoria]);
-    }
-
-    function errorCB(err) {
-        alert("Error processing SQL: "+err);
-    }
-
-    function successCB() {
-       // alert("success!");
-    }
 
 </script>
 </body>
