@@ -68,7 +68,12 @@
             //alert("CREAR BD");
             tx.executeSql('INSERT INTO categorias(nombre, categoria_padre, imagen, punteo_necesario) VALUES (?,?,?,5)', ['Ropa', 0, 'img/ropa.png']);
             tx.executeSql('INSERT INTO categorias (nombre, categoria_padre, imagen, punteo_necesario) VALUES (?,?,?,11)', ['Familia', 0, 'img/familia.png']);
-            tx.executeSql('INSERT INTO categorias (nombre, categoria_padre, imagen, punteo_necesario) VALUES (?,?,?,11)', ['Cuerpo', 0, 'img/cuerpo_humano.jpg']);
+            tx.executeSql('INSERT INTO categorias (nombre, categoria_padre, imagen, punteo_necesario) VALUES (?,?,?,11)', ['Cuerpo', 0, 'img/cuerpo.png']);
+            tx.executeSql('INSERT INTO categorias (nombre, categoria_padre, imagen, punteo_necesario) VALUES (?,?,?,11)', ['Pertenencias', 0, 'img/pertenencias.png']);
+            tx.executeSql('INSERT INTO categorias (nombre, categoria_padre, imagen, punteo_necesario) VALUES (?,?,?,6)', ['Casa', 0, 'img/casa.png']);
+            tx.executeSql('INSERT INTO categorias (nombre, categoria_padre, imagen, punteo_necesario) VALUES (?,?,?,15)', ['Higiene', 0, 'img/higiene.png']);
+            tx.executeSql('INSERT INTO categorias (nombre, categoria_padre, imagen, punteo_necesario) VALUES (?,?,?,11)', ['Comida', 0, 'img/comida.png']);
+            tx.executeSql('INSERT INTO categorias (nombre, categoria_padre, imagen, punteo_necesario) VALUES (?,?,?,15)', ['Emociones', 0, 'img/emociones.png']);
             //si las categorias no han sido insertadas por defecto las palabras tampoco y se insertan en la funcion InsertarPalabras
             // para ello consultamos las categorias inse y asi obtenmos el id de cada categoria y poder referenciarla a la palabra
             tx.executeSql('SELECT * FROM categorias', [], InsertarPalabras, errorDB);
@@ -78,6 +83,12 @@
         //results.rows.item(0).id; asi obtememos el id de la categoria correspondiente, aqui ya suponemos que cmo se insertaron en ese orden las categorias ese es el id correspondiente
         var id_ropa = results.rows.item(0).id;
         var id_familia = results.rows.item(1).id;
+        var id_cuerpo = results.rows.item(2).id;
+        var id_pertenencia = results.rows.item(3).id;
+        var id_casa = results.rows.item(4).id;
+        var id_higiene = results.rows.item(5).id;
+        var id_comida = results.rows.item(6).id;
+        var id_emociones = results.rows.item(7).id;
         //alert("id en insert"+id_familia);
         tx.executeSql('INSERT INTO palabras(nombre, categoria_padre, imagen) VALUES (?,?,?)', ['Sudadero', id_ropa, 'img/ropa.png']);
         tx.executeSql('INSERT INTO palabras(nombre, categoria_padre, imagen) VALUES (?,?,?)', ['Pantalon', id_ropa, 'img/pantalon.png']);
@@ -88,6 +99,37 @@
         tx.executeSql('INSERT INTO palabras(nombre, categoria_padre, imagen) VALUES (?,?,?)', ['Abuelo', id_familia, 'img/abuelo.png']);
         tx.executeSql('INSERT INTO palabras(nombre, categoria_padre, imagen) VALUES (?,?,?)', ['Abuela', id_familia, 'img/abuela.png']);
         tx.executeSql('INSERT INTO palabras(nombre, categoria_padre, imagen) VALUES (?,?,?)', ['Bebé', id_familia, 'img/bebe.png']);
+        tx.executeSql('INSERT INTO palabras(nombre, categoria_padre, imagen) VALUES (?,?,?)', ['Mano', id_cuerpo, 'img/mano.png']);
+        tx.executeSql('INSERT INTO palabras(nombre, categoria_padre, imagen) VALUES (?,?,?)', ['Pie', id_cuerpo, 'img/pie.png']);
+        tx.executeSql('INSERT INTO palabras(nombre, categoria_padre, imagen) VALUES (?,?,?)', ['Espalda', id_cuerpo, 'img/espalda.gif']);
+        tx.executeSql('INSERT INTO palabras(nombre, categoria_padre, imagen) VALUES (?,?,?)', ['Ojo', id_cuerpo, 'img/ojo.png']);
+        tx.executeSql('INSERT INTO palabras(nombre, categoria_padre, imagen) VALUES (?,?,?)', ['Nariz', id_cuerpo, 'img/nariz.png']);
+        tx.executeSql('INSERT INTO palabras(nombre, categoria_padre, imagen) VALUES (?,?,?)', ['Mochila', id_pertenencia, 'img/mochila.png']);
+        tx.executeSql('INSERT INTO palabras(nombre, categoria_padre, imagen) VALUES (?,?,?)', ['Cuaderno', id_pertenencia, 'img/cuaderno.png']);
+        tx.executeSql('INSERT INTO palabras(nombre, categoria_padre, imagen) VALUES (?,?,?)', ['Lápiz', id_pertenencia, 'img/lapiz.png']);
+        tx.executeSql('INSERT INTO palabras(nombre, categoria_padre, imagen) VALUES (?,?,?)', ['Baño', id_casa, 'img/baño.png']);
+        tx.executeSql('INSERT INTO palabras(nombre, categoria_padre, imagen) VALUES (?,?,?)', ['Cama', id_casa, 'img/cama.png']);
+        tx.executeSql('INSERT INTO palabras(nombre, categoria_padre, imagen) VALUES (?,?,?)', ['Televisión', id_casa, 'img/television.png']);
+        tx.executeSql('INSERT INTO palabras(nombre, categoria_padre, imagen) VALUES (?,?,?)', ['Estufa', id_casa, 'img/estufa.png']);
+        tx.executeSql('INSERT INTO palabras(nombre, categoria_padre, imagen) VALUES (?,?,?)', ['Sillón', id_casa, 'img/sillon.png']);
+        tx.executeSql('INSERT INTO palabras(nombre, categoria_padre, imagen) VALUES (?,?,?)', ['Cepillo', id_higiene, 'img/cepillo.png']);
+        tx.executeSql('INSERT INTO palabras(nombre, categoria_padre, imagen) VALUES (?,?,?)', ['Peine', id_higiene, 'img/peine.png']);
+        tx.executeSql('INSERT INTO palabras(nombre, categoria_padre, imagen) VALUES (?,?,?)', ['Jabon', id_higiene, 'img/jabon.png']);
+        tx.executeSql('INSERT INTO palabras(nombre, categoria_padre, imagen) VALUES (?,?,?)', ['Pasta', id_higiene, 'img/pasta.png']);
+        tx.executeSql('INSERT INTO palabras(nombre, categoria_padre, imagen) VALUES (?,?,?)', ['Pizza', id_comida, 'img/pizza.png']);
+        tx.executeSql('INSERT INTO palabras(nombre, categoria_padre, imagen) VALUES (?,?,?)', ['Hamburguesa', id_comida, 'img/hamburguesa.png']);
+        tx.executeSql('INSERT INTO palabras(nombre, categoria_padre, imagen) VALUES (?,?,?)', ['Manzana', id_comida, 'img/manzana.png']);
+        tx.executeSql('INSERT INTO palabras(nombre, categoria_padre, imagen) VALUES (?,?,?)', ['Banano', id_comida, 'img/banano.png']);
+        tx.executeSql('INSERT INTO palabras(nombre, categoria_padre, imagen) VALUES (?,?,?)', ['Fresa', id_comida, 'img/fresa.png']);
+        tx.executeSql('INSERT INTO palabras(nombre, categoria_padre, imagen) VALUES (?,?,?)', ['Feliz', id_emociones, 'img/feliz.png']);
+        tx.executeSql('INSERT INTO palabras(nombre, categoria_padre, imagen) VALUES (?,?,?)', ['Triste', id_emociones, 'img/triste.png']);
+        tx.executeSql('INSERT INTO palabras(nombre, categoria_padre, imagen) VALUES (?,?,?)', ['Enojado', id_emociones, 'img/enojado.png']);
+
+
+
+
+
+
 
         //luego de haber insertado las palabras se muestran en el html en la funcion listardb
         tx.executeSql('SELECT * FROM categorias', [], ListarDB, errorDB);
@@ -98,15 +140,15 @@
         var listado = '';
         for (var i = 0; i < len; i++) {
             if (( i > 0 && results.rows.item(i - 1).punteo >= results.rows.item(i).punteo_necesario)) {
-                listado = listado.concat('<ons-col width="34vw" class="cell" tappable>' +
+                listado = listado.concat('<ons-col width="33vw" class="cell" tappable>' +
                     '<div class="categorie" data-punteo="' + results.rows.item(i).punteo + '"data-punteo-anterior="' + results.rows.item(i - 1).punteo + '" data-punteo-necesario="' + results.rows.item(i).punteo_necesario + '" onclick="funcion(\'' + results.rows.item(i).id + '\')">  <img class="thumbnail" src="' + results.rows.item(i).imagen + '">' +
                     '<span class="caption">' + results.rows.item(i).nombre + '</span></div></ons-col>');
             } else if (i == 0) {
-                listado = listado.concat('<ons-col width="34vw" class="cell" tappable>' +
+                listado = listado.concat('<ons-col width="33vw" class="cell" tappable>' +
                     '<div class="categorie" data-punteo="' + results.rows.item(i).punteo + '" data-punteo-anterior="0" data-punteo-necesario="0" onclick="funcion(\'' + results.rows.item(i).id + '\')">  <img class="thumbnail" src="' + results.rows.item(i).imagen + '">' +
                     '<span class="caption">' + results.rows.item(i).nombre + '</span></div></ons-col>');
             } else {
-                listado = listado.concat('<ons-col width="34vw" class="cell disable" tappable>' +
+                listado = listado.concat('<ons-col width="33vw" class="cell disable" tappable>' +
                     '<div class="categorie" data-punteo="' + results.rows.item(i).punteo + '" data-punteo-anterior="' + results.rows.item(i -1).punteo + '" data-punteo-necesario="' + results.rows.item(i).punteo_necesario + '">  <img class="thumbnail disable" src="' + results.rows.item(i).imagen + '">' +
                     '<span class="caption">' + results.rows.item(i).nombre + '</span></div></ons-col>');
             }
@@ -144,8 +186,18 @@
         window.localStorage.setItem('palabras', palabras);
         window.localStorage.setItem('imagenes', imagenes);
         window.localStorage.setItem('categoria', param);
-        if(param==1)  window.location.replace("ayuda.html");
-        else window.location.replace("juego.html");
+        if(param==1) {
+          window.plugins.nativepagetransitions.slide({
+              "direction" : "left",
+              "href" : "ayuda.html"
+          });
+        }
+        else {
+          window.plugins.nativepagetransitions.slide({
+              "direction" : "left",
+              "href" : "juego.html"
+          });
+        }
     }
 
     $(document).on("click", '.categorie', function() {
