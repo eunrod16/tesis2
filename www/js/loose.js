@@ -18,17 +18,24 @@ function jugar() {
 //            "direction" : "left",
 //            "href" : "juego.html"
 //        });
-    document.querySelector('#myNavigator').resetToPage('juego.html', {data: {title: 'Juego'}});
+    var options = {
+        callback: gameplayLoaded,
+        data: {title: "Juego"}
+    };
+    document.querySelector('#myNavigator').pushPage('juego.html', options);
 }
 function actualizarPunteo(tx) {
+    console.log("actualizar punteo");
     tx.executeSql('update categorias set punteo = punteo + ? where id = ?',[punteo,categoria]);
 }
 
 function errorCB(err) {
+
     alert("Error processing SQL: "+err);
 }
 
 function successCB() {
     // alert("success!");
+    console.log("acutalizado punteo con exito")
 }
 

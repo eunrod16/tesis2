@@ -31,9 +31,7 @@ function VerifyColission(){
 		 }
 		 else if (valor != palabraactual){  //si se colisiona con la imagen incorrecta
 		//	 document.getElementById('puntuacion').innerHTML = punteo--;
-             loose = true;
-			 window.localStorage.setItem('puntuacion', punteo);
-             document.querySelector('#myNavigator').resetToPage('loose.html', {data: {title: "Loose"}});
+            playerLoose();
 			 // window.location = "loose.html";
 		 }
 
@@ -51,9 +49,7 @@ function VerifyColission(){
 		}
 		else if (valor != palabraactual){
 	//		document.getElementById('puntuacion').innerHTML = punteo--;
-			window.localStorage.setItem('puntuacion', punteo);
-            loose = true;
-            document.querySelector('#myNavigator').resetToPage('loose.html', {data: {title: "Loose"}});
+            playerLoose();
 			// window.location = "loose.html";
 		}
 
@@ -157,8 +153,15 @@ function update() {
 
 }
 
-function loose(){
-
+function playerLoose(){
+    loose = true;
+    ball.vy = 0;
+    window.localStorage.setItem('puntuacion', punteo);
+    var options = {
+        callback: initLoose,
+        data: {title: "Loose"}
+    };
+    document.querySelector('#myNavigator').resetToPage('loose.html', options);
 }
 
 
