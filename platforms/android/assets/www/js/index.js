@@ -7,10 +7,10 @@ $("#btn-play").on("click",function() {
 
 });
 
-$("#btn-help").on("click",function() {
+$("#btn-acerca").on("click",function() {
   window.plugins.nativepagetransitions.slide({
       "direction" : "left",
-      "href" : "help.html"
+      "href" : "acerca_de.html"
   });
 });
 
